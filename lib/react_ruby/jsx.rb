@@ -2,7 +2,7 @@ require 'execjs'
 module ReactRuby
   module JSX
     def self.context
-      @context||=ExecJS.compile (JSCode.jsx)
+      @context||=ExecJS.compile ('var global = global || this;' + JSCode.jsx)
     end
 
     def self.transform(jsx)
