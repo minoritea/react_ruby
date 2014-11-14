@@ -1,5 +1,7 @@
-require "react_ruby/version"
+require 'react_ruby/version'
 require 'execjs'
+
+require 'react_ruby/jsx'
 
 module ReactRuby
   module JSCode
@@ -20,13 +22,6 @@ module ReactRuby
     end
   end
 
-  def self.config
-    @config ||= {
-      jsx: JSCode.jsx,
-      react: JSCode.react
-    }
-  end
-
   class Renderer
     def initialize(config = {})
       @config = ReactRuby.config.merge(config)
@@ -34,23 +29,37 @@ module ReactRuby
     end
 
     def compile
+      jsx = @config[:jsx]
+      jsx = JSX.transform(jsx) if jsx
       @context = ExecJS.compile(<<-JS)
         var global = global || this;
         #{@config[:react]}
-        #{@config[:jsx]}
-        #{@config[:src]}
-        if(!renderReactViewToRuby){
-          function renderReactViewToRuby(jsx){
-            var js = JSXTransformer.transform(jsx);
-            var el = eval(js.code);
-            return React.renderToString(el);
-          }
-        }
+        #{jsx}
+        #{@config[:js]}
       JS
     end
 
     def render(jsx)
-      @context.call('renderReactViewToRuby', jsx)
+      @context.eval("React.renderToString(#{JSX.transform(jsx)})")
     end
   end
+
+  class << self
+    attr_accessor :config
+    def default_renderer
+      @renderer
+    end
+
+    def compile(params = {})
+      @renderer = Renderer.new(params)
+    end
+
+    def render(jsx)
+      raise 'It must compile context bofore rendering.' unless @renderer
+      @renderer.render(jsx)
+    end
+  end
+  self.config ||= {
+    react: JSCode.react
+  }
 end

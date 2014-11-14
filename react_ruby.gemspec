@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = ReactRuby::VERSION
   spec.authors       = ["minoritea"]
   spec.email         = ["minorityland@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{ A React(react.js) template engine for ruby }
+  spec.description   = spec.summary
+  spec.homepage      = "https://github.com/minoritea/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
