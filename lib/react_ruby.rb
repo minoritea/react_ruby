@@ -22,11 +22,11 @@ module ReactRuby
 
   class Renderer
     def initialize(config = {})
-      @config = ReactRuby.config.merge(config)
-      compile
+      compile(config)
     end
 
-    def compile
+    def compile(config = {})
+      @config = ReactRuby.config.merge(config)
       jsx = @config[:jsx]
       jsx = JSX.transform(jsx) if jsx
       @context = ExecJS.compile(<<-JS)
