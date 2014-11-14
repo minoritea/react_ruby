@@ -1,6 +1,4 @@
-require 'react_ruby/version'
 require 'execjs'
-
 require 'react_ruby/jsx'
 
 module ReactRuby
@@ -45,10 +43,7 @@ module ReactRuby
   end
 
   class << self
-    attr_accessor :config
-    def default_renderer
-      @renderer
-    end
+    attr_accessor :config, :renderer
 
     def compile(params = {})
       @renderer = Renderer.new(params)
