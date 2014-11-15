@@ -42,6 +42,10 @@ ReactRuby.render('<Post body="Hello, world!" />')
 
 Note: at first, you must compile context once, then you can invoke #render method at any time.
 
+## Sample App
+
+https://github.com/minoritea/react_ruby_sample
+
 ## Contributing
 
 1. Fork it ( https://github.com/minoritea/react_ruby/fork )
