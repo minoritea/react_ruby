@@ -30,7 +30,8 @@ module ReactRuby
       jsx = @config[:jsx]
       jsx = JSX.transform(jsx) if jsx
       @context = ExecJS.compile(<<-JS)
-        var global = global || this;
+        if('undefined' === typeof global)
+          var global = this;
         #{@config[:react]}
         #{jsx}
         #{@config[:js]}
@@ -39,6 +40,10 @@ module ReactRuby
 
     def render(jsx)
       @context.eval("React.renderToString(#{JSX.transform(jsx)})")
+    end
+
+    def inspect
+      "#<#{self.class.name}:#{self.object_id} ... >"
     end
   end
 

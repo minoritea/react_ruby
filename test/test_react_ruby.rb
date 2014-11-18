@@ -1,7 +1,17 @@
 require 'test/unit'
+require 'therubyracer'
 require 'react_ruby'
+require 'execjs'
 
-class JSXTest < Test::Unit::TestCase
+module JSXTestCase
+  def setup
+    set_runtime
+  end
+
+  def set_runtime
+    ExecJS.runtime = ExecJS::Runtimes::RubyRacer
+  end
+
   def test_react_method
     jsx = '<div>hello</div>'
     assert_equal('React.createElement("div", null, "hello")',
@@ -32,7 +42,30 @@ class JSXTest < Test::Unit::TestCase
   end
 end
 
-class RendererTest < Test::Unit::TestCase
+#defult runtime is therubyracer
+class JSXTest < Test::Unit::TestCase
+  include JSXTestCase
+end
+
+#if node.js is installed, do same test on node.js
+class JSXTestWithNode < Test::Unit::TestCase
+  if ExecJS::Runtimes::Node.available?
+    include JSXTestCase
+    def set_runtime
+      ExecJS.runtime = ExecJS::Runtimes::Node
+    end
+  end
+end
+
+module RendererTestCase
+  def setup
+    set_runtime
+  end
+
+  def set_runtime
+    ExecJS.runtime = ExecJS::Runtimes::RubyRacer
+  end
+
   def test_render_with_jsx
     renderer = ReactRuby::Renderer.new(jsx: <<-JSX)
        Test = React.createClass({
@@ -58,9 +91,27 @@ class RendererTest < Test::Unit::TestCase
   end
 end
 
-class ReactRubyTest < Test::Unit::TestCase
+class RendererTest < Test::Unit::TestCase
+  include RendererTestCase
+end
+
+class RendererTestWithNode < Test::Unit::TestCase
+  if ExecJS::Runtimes::Node.available?
+    include RendererTestCase
+    def set_runtime
+      ExecJS.runtime = ExecJS::Runtimes::Node
+    end
+  end
+end
+
+module ReactRubyTestCase
   def setup
+    set_runtime
     ReactRuby.renderer = nil
+  end
+
+  def set_runtime
+    ExecJS.runtime = ExecJS::Runtimes::RubyRacer
   end
 
   def test_renderer
@@ -73,5 +124,18 @@ class ReactRubyTest < Test::Unit::TestCase
     assert_raise{ReactRuby.render('<div></div>')}
     ReactRuby.compile
     assert_nothing_thrown{ReactRuby.render('<div></div>')}
+  end
+end
+
+class ReactRubyTest < Test::Unit::TestCase
+  include ReactRubyTestCase
+end
+
+class ReactRubyTestWithNode < Test::Unit::TestCase
+  if ExecJS::Runtimes::Node.available?
+    include ReactRubyTestCase
+    def set_runtime
+      ExecJS.runtime = ExecJS::Runtimes::Node
+    end
   end
 end
