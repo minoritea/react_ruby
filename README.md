@@ -53,3 +53,6 @@ https://github.com/minoritea/react_ruby_sample
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Build status
+[ ![Codeship Status for minoritea/react_ruby](https://codeship.com/projects/85408bd0-ac14-0130-51d4-0ae3137a8f3a/status)](https://codeship.com/projects/3909)
