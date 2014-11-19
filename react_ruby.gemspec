@@ -23,5 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "test-unit", "~> 3.0"
   spec.add_development_dependency "therubyracer", "~> 0.12"
 
+  spec.add_runtime_dependency 'react-source', '~> 0.12'
   spec.add_runtime_dependency 'execjs', '~> 2.0'
 end

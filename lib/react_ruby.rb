@@ -1,13 +1,11 @@
+require 'react/source'
 require 'execjs'
 require 'react_ruby/jsx'
 
 module ReactRuby
   module JSCode
-
     def self.read(filename)
-      path = File.expand_path(
-        File.join('../../vendor/assets/javascripts', filename),
-        __FILE__)
+      path = React::Source.bundled_path_for(filename)
       ::IO.read(path)
     end
 
