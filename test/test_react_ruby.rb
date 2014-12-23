@@ -31,7 +31,7 @@ module TestCases
         });
       JSX
       assert_equal(<<-JSX, ReactRuby::JSX.transform(jsx))
-        this.Post = React.createClass({displayName: 'Post',
+        this.Post = React.createClass({displayName: "Post",
           render: function(){
             return React.createElement("div", null, 
               React.createElement(Body, {message: "hello"}), 
