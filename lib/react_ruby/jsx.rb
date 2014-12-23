@@ -1,4 +1,6 @@
 require 'execjs'
+require 'react_ruby/jscode'
+
 module ReactRuby
   module JSX
     def self.context
